@@ -62,7 +62,23 @@ public class MainActivity extends AppCompatActivity {
             Log.e("Exception: %s", e.getMessage());
         }
     }
-
+    private void getLocationPermission2() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+            updateLocationUI();
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
     private void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
