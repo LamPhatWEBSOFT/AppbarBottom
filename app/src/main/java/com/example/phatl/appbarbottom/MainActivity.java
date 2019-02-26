@@ -89,31 +89,31 @@ public class MainActivity extends AppCompatActivity {
          * cases when a location is not available.
          */
         try {
-//            if (mLocationPermissionGranted) {
-//                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
-//                locationResult.addOnCompleteListener(task -> {
-//                    if (task.isSuccessful()) {
-//                        // Set the map's camera position to the current location of the device.
-//                        mLastKnownLocation = task.getResult();
-//                        if (mLastKnownLocation != null) {
-//                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-//                                    new LatLng(38.9577285,
-//                                            -77.366963), DEFAULT_ZOOM));
-//                            String lat = String.valueOf(38.9577285);
-//                            String lon = String.valueOf(-77.366963);
-////                            if (!presenter.isLoadMarker())
-////                                presenter.getSuperMarkers(lat, lon);
-//                        }
-//                    } else {
-////                        Log.d(TAG, "Current location is null. Using defaults.");
-////                        Log.e(TAG, "Exception: %s", task.getException());
-//                        mMap.moveCamera(CameraUpdateFactory
-//                                .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-//
-//                    }
-//                    mMap.setMyLocationEnabled(true);
-//                });
-//            }
+            if (mLocationPermissionGranted) {
+                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Set the map's camera position to the current location of the device.
+                        mLastKnownLocation = task.getResult();
+                        if (mLastKnownLocation != null) {
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                    new LatLng(38.9577285,
+                                            -77.366963), DEFAULT_ZOOM));
+                            String lat = String.valueOf(38.9577285);
+                            String lon = String.valueOf(-77.366963);
+//                            if (!presenter.isLoadMarker())
+//                                presenter.getSuperMarkers(lat, lon);
+                        }
+                    } else {
+//                        Log.d(TAG, "Current location is null. Using defaults.");
+//                        Log.e(TAG, "Exception: %s", task.getException());
+                        mMap.moveCamera(CameraUpdateFactory
+                                .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+
+                    }
+                    mMap.setMyLocationEnabled(true);
+                });
+            }
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
