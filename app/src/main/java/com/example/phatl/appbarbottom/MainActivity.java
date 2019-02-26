@@ -62,6 +62,25 @@ public class MainActivity extends AppCompatActivity {
             Log.e("Exception: %s", e.getMessage());
         }
     }
+
+    private void updateLocationUI1() {
+        if (mMap == null) {
+            return;
+        }
+        try {
+            if (mLocationPermissionGranted) {
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            } else {
+                mMap.setMyLocationEnabled(false);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mLastKnownLocation = null;
+                getLocationPermission();
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
     private void getLocationPermission2() {
         /*
          * Request location permission, so that we can get the location of the
