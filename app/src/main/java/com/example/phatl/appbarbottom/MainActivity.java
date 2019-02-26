@@ -80,7 +80,23 @@ public class MainActivity extends AppCompatActivity {
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
-
+    private void getLocationPermission1() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+            updateLocationUI();
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private int DEFAULT_ZOOM = 11;
     private void getDeviceLocation() {
@@ -91,33 +107,31 @@ public class MainActivity extends AppCompatActivity {
         try {
 
 
+            if (mLocationPermissionGranted) {
+                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Set the map's camera position to the current location of the device.
+                        mLastKnownLocation = task.getResult();
+                        if (mLastKnownLocation != null) {
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                    new LatLng(38.9577285,
+                                            -77.366963), DEFAULT_ZOOM));
+                            String lat = String.valueOf(38.9577285);
+                            String lon = String.valueOf(-77.366963);
+//                            if (!presenter.isLoadMarker())
+//                                presenter.getSuperMarkers(lat, lon);
+                        }
+                    } else {
+//                        Log.d(TAG, "Current location is null. Using defaults.");
+//                        Log.e(TAG, "Exception: %s", task.getException());
+                        mMap.moveCamera(CameraUpdateFactory
+                                .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
 
-            
-//            if (mLocationPermissionGranted) {
-//                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
-//                locationResult.addOnCompleteListener(task -> {
-//                    if (task.isSuccessful()) {
-//                        // Set the map's camera position to the current location of the device.
-//                        mLastKnownLocation = task.getResult();
-//                        if (mLastKnownLocation != null) {
-//                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-//                                    new LatLng(38.9577285,
-//                                            -77.366963), DEFAULT_ZOOM));
-//                            String lat = String.valueOf(38.9577285);
-//                            String lon = String.valueOf(-77.366963);
-////                            if (!presenter.isLoadMarker())
-////                                presenter.getSuperMarkers(lat, lon);
-//                        }
-//                    } else {
-////                        Log.d(TAG, "Current location is null. Using defaults.");
-////                        Log.e(TAG, "Exception: %s", task.getException());
-//                        mMap.moveCamera(CameraUpdateFactory
-//                                .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-//
-//                    }
-//                    mMap.setMyLocationEnabled(true);
-//                });
-//            }
+                    }
+                    mMap.setMyLocationEnabled(true);
+                });
+            }
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
