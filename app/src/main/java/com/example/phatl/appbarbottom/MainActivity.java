@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         layout_map = findViewById(R.id.layout_map);
         fdfsdkjkljlklk
+                //edit in dev_7
     }
 
     private GoogleMap mMap;
