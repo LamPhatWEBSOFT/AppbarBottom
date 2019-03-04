@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         layout_map = findViewById(R.id.layout_map);
+//        rebase branch a
         fdfsdkjkljlklk
                 //edit in dev_7
     }
